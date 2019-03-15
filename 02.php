@@ -1,29 +1,19 @@
 <?php
 
-interface RandomInterface
-{
-    public function __construct($seed);
+require 'RandomInterface.php';
+require 'Random.php';
 
-    public function getNext();
-
-    public function reset();
-}
-
-class Random implements RandomInterface
-{
-    public $seed;
-
-    public function __construct($seed)
-    {
-        $this->seed = $seed;
-    }
-
-    public function getNext()
-    {
-    }
-
-    public function reset()
-    {
-        return $this->seed;
-    }
-}
+$seq = new Random(100);
+$result1 = $seq->getNext();
+$result2 = $seq->getNext();
+var_dump($result1 !== $result2);
+$result3 = $seq->reset();
+$result21 = $seq->getNext();
+$result22 = $seq->getNext();
+var_dump($result1 === $result21);
+var_dump($result2 === $result22);
+echo $result1 . "\n";
+echo $result2 . "\n";
+echo $result3 . "\n";
+echo $result21 . "\n";
+echo $result22 . "\n";

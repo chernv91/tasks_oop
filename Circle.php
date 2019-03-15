@@ -11,12 +11,11 @@ class Circle
 
     public function getArea()
     {
-        return M_PI * $this->radius * $this->radius;
+        return round(M_PI * $this->radius ** 2, 2);
     }
 
     public function getCircumference()
     {
-        return 2 * M_PI * $this->radius;
+        return round(2 * M_PI * $this->radius, 2);
     }
-
 }
