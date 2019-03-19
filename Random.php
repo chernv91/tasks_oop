@@ -1,14 +1,15 @@
 <?php
 
-class Random implements RandomInterface
+class Random extends AbstractRandom
 {
     public $seed;
     public $a;
     public $c;
     public $m;
+    public $n;
     public $num_array = [];
 
-    public function __construct($seed)
+    public function __construct($seed, $n)
     {
         $this->seed = $seed;
         $this->num_array[] = $seed;
@@ -16,8 +17,9 @@ class Random implements RandomInterface
         $this->m = mt_rand($this->seed + 1, $this->seed * 2);
         $this->a = mt_rand(0, $this->m - 1);
         $this->c = mt_rand(0, $this->m - 1);
+        $this->n = $n;
 
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < $this->n; $i++) {
             $xn1 = ($this->a * $xn + $this->c) % $this->m;
             $this->num_array[] = $xn1;
             $xn = $xn1;
