@@ -9,7 +9,7 @@ class Random extends AbstractRandom
     public $n;
     public $num_array = [];
 
-    public function __construct($seed, $n)
+    public function __construct($seed)
     {
         $this->seed = $seed;
         $this->num_array[] = $seed;
@@ -17,7 +17,7 @@ class Random extends AbstractRandom
         $this->m = mt_rand($this->seed + 1, $this->seed * 2);
         $this->a = mt_rand(0, $this->m - 1);
         $this->c = mt_rand(0, $this->m - 1);
-        $this->n = $n;
+        $this->n = $this->m;
 
         for ($i = 0; $i < $this->n; $i++) {
             $xn1 = ($this->a * $xn + $this->c) % $this->m;

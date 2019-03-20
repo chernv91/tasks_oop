@@ -3,7 +3,7 @@
 require 'AbstractRandom.php';
 require 'Random.php';
 
-$seq = new Random(100, 10);
+$seq = new Random(100);
 $result1 = $seq->getNext();
 $result2 = $seq->getNext();
 var_dump($result1 !== $result2);
