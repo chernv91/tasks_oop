@@ -2,49 +2,56 @@
 
 class Url implements UrlInterface
 {
-    public $scheme;
-    public $host;
-    public $params_arr = [];
+    private $scheme;
+    private $host;
+    private $queryParamsArr = [];
 
-    public function __construct($http)
+    public function __construct(string $http)
     {
-        $this->scheme = parse_url($http, PHP_URL_SCHEME);
-        $this->host = parse_url($http, PHP_URL_HOST);
+        $http = trim($http);
 
-        $params = parse_url($http, PHP_URL_QUERY);
-        $params_arr2 = explode('&', $params);
+        if (!empty($http)) {
+            $this->scheme = parse_url($http, PHP_URL_SCHEME);
+            $this->host = parse_url($http, PHP_URL_HOST);
+            $queryParams = parse_url($http, PHP_URL_QUERY);
 
-        foreach ($params_arr2 as $param) {
-            $param = explode('=', $param);
-            $this->params_arr[$param[0]] = $param[1];
+            $tmpArr = explode('&', $queryParams);
+
+            foreach ($tmpArr as $queryParam) {
+                $queryParam = explode('=', $queryParam);
+                $this->queryParamsArr[$queryParam[0]] = $queryParam[1];
+            }
+
+        } else {
+            throw new InvalidArgumentException('Передана пустая строка!');
         }
 
     }
 
-    public function getScheme()
+    public function getScheme(): string
     {
         return $this->scheme;
     }
 
-    public function getHost()
+    public function getHost(): string
     {
         return $this->host;
     }
 
-    public function getQueryParams()
+    public function getQueryParams(): array
     {
-        return $this->params_arr;
+        return $this->queryParamsArr;
     }
 
-    public function getQueryParam($key, $default_value = '')
+    public function getQueryParam(string $key, string $default_value = ''): string
     {
-        $result = $default_value;
-        $params_arr = $this->getQueryParams();
+        $value = $default_value;
+        $queryParamsArr = $this->queryParamsArr;
 
-        if (array_key_exists($key, $params_arr)) {
-            $result = $params_arr[$key];
+        if (array_key_exists($key, $queryParamsArr)) {
+            $value = $queryParamsArr[$key];
         }
 
-        return $result;
+        return $value;
     }
 }

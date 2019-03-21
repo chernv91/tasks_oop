@@ -1,40 +1,47 @@
 <?php
+/**
+ * Class Random
+ * Генерирует последовательность целых чисел случайной длины (в зависимости от коэффициента m).
+ * Коэффициенты m, a и c также генерируются случайно, в соответствии с ограничениями, представленными
+ * в формуле для линейного конгруэнтного метода.
+ * При вызове метода getNext() возвращает очередное число последовательности.
+ * При вызове метода reset() устанавливает указатель массива на его первый элемент.
+ */
 
 class Random extends AbstractRandom
 {
-    public $seed;
-    public $a;
-    public $c;
-    public $m;
-    public $n;
-    public $num_array = [];
+    private $randomNumbersSequence = [];
 
-    public function __construct($seed)
+    public function __construct(int $seed)
     {
-        $this->seed = $seed;
-        $this->num_array[] = $seed;
-        $xn = $seed;
-        $this->m = mt_rand($this->seed + 1, $this->seed * 2);
-        $this->a = mt_rand(0, $this->m - 1);
-        $this->c = mt_rand(0, $this->m - 1);
-        $this->n = $this->m;
+        if ($seed < 0) {
+            throw new InvalidArgumentException('Начальное значение должно быть больше или равно 0!');
+        }
 
-        for ($i = 0; $i < $this->n; $i++) {
-            $xn1 = ($this->a * $xn + $this->c) % $this->m;
-            $this->num_array[] = $xn1;
-            $xn = $xn1;
+        $this->randomNumbersSequence[] = $seed;
+        $xn = $seed;
+        $m = random_int($seed + 1, $seed * 2);
+        $a = random_int(0, $m - 1);
+        $c = random_int(0, $m - 1);
+
+        for ($i = 0; $i < $m; $i++) {
+            $xnNext = ($a * $xn + $c) % $m;
+            $this->randomNumbersSequence[] = $xnNext;
+            $xn = $xnNext;
         }
 
     }
 
-    public function getNext()
+    public function getNext(): int
     {
-        return next($this->num_array);
+        return next($this->randomNumbersSequence);
     }
 
-    public function reset()
+    public function reset(): void
     {
-        reset($this->num_array);
-        return $this->seed;
+        reset($this->randomNumbersSequence);
     }
 }
+
+
+

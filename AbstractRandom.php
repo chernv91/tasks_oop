@@ -2,9 +2,9 @@
 
 abstract class AbstractRandom
 {
-    abstract public function __construct($seed);
+    abstract public function __construct(int $seed);
 
-    abstract public function getNext();
+    abstract public function getNext(): int;
 
-    abstract public function reset();
+    abstract public function reset(): void;
 }

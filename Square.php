@@ -2,14 +2,18 @@
 
 class Square
 {
-    public $side;
+    private $side;
 
-    public function __construct($side)
+    public function __construct(float $side)
     {
+        if ($side <= 0) {
+            throw new InvalidArgumentException('Значение должно быть больше 0!');
+        }
+
         $this->side = $side;
     }
 
-    public function getSide()
+    public function getSide(): float
     {
         return $this->side;
     }

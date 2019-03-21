@@ -2,11 +2,11 @@
 
 interface UrlInterface
 {
-    public function getScheme();
+    public function getScheme(): string;
 
-    public function getHost();
+    public function getHost(): string;
 
-    public function getQueryParams();
+    public function getQueryParams(): array;
 
-    public function getQueryParam($key, $default_value);
+    public function getQueryParam(string $key, string $default_value): string;
 }
